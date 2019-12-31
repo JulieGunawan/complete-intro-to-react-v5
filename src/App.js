@@ -1,26 +1,27 @@
-import React from 'react';
-import { render } from 'react-dom';
-import Pet from "./Pet"
+import React, { useState } from "react";
+import { render } from "react-dom";
+import { Router, Link } from "@reach/router";
+import SearchParams from "./SearchParams.js";
+import Details from "./Details";
+import ThemeContext from "./ThemeContext";
 
 const App = () => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, "Adopt Me!"),
-    React.createElement(Pet, {
-      name: "gilda",
-      animal: "dog",
-      breed: "golden retriever"
-    }),
-    React.createElement(Pet, {
-      name: "stella",
-      animal: "dog",
-      breed: "dachshund"
-    }),
-    React.createElement(Pet, {
-      name: "taco",
-      animal: "gecko",
-      breed: "madagasdcar day gecko"
-    })
-  ]);
+  const themeHook = useState("darkblue");
+  return (
+    <React.StrictMode>
+      <ThemeContext.Provider value={themeHook}>
+        <div>
+          <header>
+            <Link to="/">Adopt Me!</Link>
+          </header>
+          <Router>
+            <SearchParams path="/" />
+            <Details path="/details/:id" />
+          </Router>
+        </div>
+      </ThemeContext.Provider>
+    </React.StrictMode>
+  );
 };
 
-render(React.createElement(App), document.getElementById("root"));
+render(<App />, document.getElementById("root"));
